@@ -4,6 +4,7 @@ import App from './components/app/app';
 import { Setting } from './const';
 import { offers } from './mocks/offers';
 import { reviews } from './mocks/reviews';
+import { AuthorizationStatus } from './const';
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
@@ -15,6 +16,7 @@ root.render(
       offersCount={Setting.OffersCount}
       offers={offers}
       reviews={reviews}
+      authorizationStatus={AuthorizationStatus.NoAuth}
     />
   </React.StrictMode>
 );
