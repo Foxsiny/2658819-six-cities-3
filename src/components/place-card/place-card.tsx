@@ -5,14 +5,19 @@ import { AppRoute } from '../../const';
 type PlaceCardProps = {
   offer: Offer;
   onMouseEnter?: (id: string) => void;
+  onMouseLeave?: () => void;
   variant: 'cities' | 'favorites'; // Переключатель стилей
 };
 
-export function PlaceCard({ offer, onMouseEnter, variant }: PlaceCardProps): JSX.Element {
+export function PlaceCard({ offer, onMouseEnter, onMouseLeave, variant }: PlaceCardProps): JSX.Element {
 
   const isFavorites = variant === 'favorites';
   return (
-    <article className={`${isFavorites ? 'favorites__card' : 'cities__card'} place-card`} onMouseEnter={() => onMouseEnter?.(offer.id)}>
+    <article
+      className={`${isFavorites ? 'favorites__card' : 'cities__card'} place-card`}
+      onMouseEnter={() => onMouseEnter?.(offer.id)}
+      onMouseLeave={() => onMouseLeave?.()}
+    >
       {offer.isPremium && (
         <div className="place-card__mark">
           <span>Premium</span>

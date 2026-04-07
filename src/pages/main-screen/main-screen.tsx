@@ -1,6 +1,8 @@
-import { Layout } from '../../components/layout/layout';
+import {Layout} from '../../components/layout/layout';
 import {Offer} from '../../types/offer';
 import {PlacesList} from '../../components/places-list/places-list';
+import { Map } from '../../components/map/map';
+import { useState } from 'react';
 
 type MainScreenProps = {
   offersCount: number;
@@ -9,9 +11,20 @@ type MainScreenProps = {
 
 function MainScreen({offersCount, offers}: MainScreenProps): JSX.Element {
 
+  const city = offers[0].city;
+
+  const [selectedOffer, setSelectedOffer] = useState<Offer | null>(null);
+
   const handleCardMouseEnter = (id: string) => {
-    void id;// console.log(`Активная карточка: ${id}`);
+    const currentOffer = offers.find((offer) => offer.id === id);
+    setSelectedOffer(currentOffer || null);
+    // console.log(`Активная карточка: ${id}`);
   };
+
+  const handleCardMouseLeave = () => {
+    setSelectedOffer(null);
+  };
+
   return (
     <Layout extraClass="page--gray page--main">
       <main className="page__main page__main--index">
@@ -72,10 +85,18 @@ function MainScreen({offersCount, offers}: MainScreenProps): JSX.Element {
                   <li className="places__option" tabIndex={0}>Top rated first</li>
                 </ul>
               </form>
-              <PlacesList offers={offers} onMouseEnter={handleCardMouseEnter}/>
+              <PlacesList
+                offers={offers}
+                onMouseEnter={handleCardMouseEnter}
+                onMouseLeave={handleCardMouseLeave}
+              />
             </section>
             <div className="cities__right-section">
-              <section className="cities__map map"></section>
+              <Map
+                city={city}
+                offers={offers}
+                selectedOffer={selectedOffer}
+              />
             </div>
           </div>
         </div>

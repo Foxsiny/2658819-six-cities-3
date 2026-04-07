@@ -5,6 +5,7 @@ import { Setting } from './const';
 import { offers } from './mocks/offers';
 import { reviews } from './mocks/reviews';
 import { AuthorizationStatus } from './const';
+import 'leaflet/dist/leaflet.css';
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement

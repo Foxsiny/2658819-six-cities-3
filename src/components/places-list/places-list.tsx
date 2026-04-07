@@ -4,9 +4,10 @@ import { PlaceCard } from '../place-card/place-card';
 type PlacesListProps = {
   offers: Offer[];
   onMouseEnter: (id: string) => void;
+  onMouseLeave: () => void;
 };
 
-export function PlacesList({ offers, onMouseEnter }: PlacesListProps): JSX.Element {
+export function PlacesList({ offers, onMouseEnter, onMouseLeave }: PlacesListProps): JSX.Element {
   return (
     <div className="cities__places-list places__list tabs__content">
       {offers.map((offer) => (
@@ -14,6 +15,7 @@ export function PlacesList({ offers, onMouseEnter }: PlacesListProps): JSX.Eleme
           key={offer.id}
           offer={offer}
           onMouseEnter={onMouseEnter}
+          onMouseLeave={onMouseLeave}
           variant="cities"
         />
       ))}

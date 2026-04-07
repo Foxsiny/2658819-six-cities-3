@@ -4,19 +4,21 @@ export type Host = {
   isPro: boolean;
 };
 
+export type City = {
+  name: string;
+  location: {
+    latitude: number;
+    longitude: number;
+    zoom: number;
+  };
+};
+
 export type Offer = {
   id: string;
   title: string;
   type: 'apartment' | 'room' | 'house' | 'hotel';
   price: number;
-  city: {
-    name: string;
-    location: {
-      latitude: number;
-      longitude: number;
-      zoom: number;
-    };
-  };
+  city: City;
   location: {
     latitude: number;
     longitude: number;
