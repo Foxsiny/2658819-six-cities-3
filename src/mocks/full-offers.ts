@@ -158,7 +158,7 @@ export const fullOffers: FullOffer[] = [
       'img/apartment-02.jpg',
       'img/apartment-03.jpg',
       'img/studio-01.jpg',
-      'img/apartment-01.jpg'
+      'img/studio-photos.jpg'
     ],
     maxAdults: 6,
   }

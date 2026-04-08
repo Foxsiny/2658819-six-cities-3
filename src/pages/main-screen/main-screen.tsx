@@ -3,6 +3,7 @@ import {Offer} from '../../types/offer';
 import {PlacesList} from '../../components/places-list/places-list';
 import { Map } from '../../components/map/map';
 import { useState } from 'react';
+import {CITIES} from '../../const';
 
 type MainScreenProps = {
   offersCount: number;
@@ -32,36 +33,19 @@ function MainScreen({offersCount, offers}: MainScreenProps): JSX.Element {
         <div className="tabs">
           <section className="locations container">
             <ul className="locations__list tabs__list">
-              <li className="locations__item">
-                <a className="locations__item-link tabs__item" href="#">
-                  <span>Paris</span>
-                </a>
-              </li>
-              <li className="locations__item">
-                <a className="locations__item-link tabs__item" href="#">
-                  <span>Cologne</span>
-                </a>
-              </li>
-              <li className="locations__item">
-                <a className="locations__item-link tabs__item" href="#">
-                  <span>Brussels</span>
-                </a>
-              </li>
-              <li className="locations__item">
-                <a className="locations__item-link tabs__item tabs__item--active">
-                  <span>Amsterdam</span>
-                </a>
-              </li>
-              <li className="locations__item">
-                <a className="locations__item-link tabs__item" href="#">
-                  <span>Hamburg</span>
-                </a>
-              </li>
-              <li className="locations__item">
-                <a className="locations__item-link tabs__item" href="#">
-                  <span>Dusseldorf</span>
-                </a>
-              </li>
+              {CITIES.map((cityName) => (
+                <li key={cityName} className="locations__item">
+                  <a
+                    className={`locations__item-link tabs__item ${cityName === 'Amsterdam' ? 'tabs__item--active' : ''}`}
+                    href="#"
+                    onClick={(evt) => {
+                      evt.preventDefault();
+                    }}
+                  >
+                    <span>{cityName}</span>
+                  </a>
+                </li>
+              ))}
             </ul>
           </section>
         </div>
