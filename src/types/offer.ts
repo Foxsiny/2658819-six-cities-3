@@ -13,25 +13,30 @@ export type City = {
   };
 };
 
+export type Location = {
+  latitude: number;
+  longitude: number;
+  zoom: number;
+};
+
 export type Offer = {
   id: string;
   title: string;
-  type: 'apartment' | 'room' | 'house' | 'hotel';
+  type: string;
   price: number;
   city: City;
-  location: {
-    latitude: number;
-    longitude: number;
-    zoom: number;
-  };
+  location: Location;
   isFavorite: boolean;
   isPremium: boolean;
   rating: number;
+  previewImage: string;
+};
+
+export type FullOffer = Omit<Offer, 'previewImage'> & {
   description: string;
   bedrooms: number;
   goods: string[];
   host: Host;
   images: string[];
   maxAdults: number;
-  previewImage: string;
 };

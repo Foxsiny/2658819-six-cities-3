@@ -1,28 +1,33 @@
-import { Layout } from '../../components/layout/layout';
+import {Layout} from '../../components/layout/layout';
 import {Review} from '../../types/review';
 import {ReviewForm} from '../../components/review-form/review-form';
 import {ReviewList} from '../../components/review-list/review-list';
 import {PlaceCard} from '../../components/place-card/place-card';
-import {Offer} from '../../types/offer';
 import {useParams} from 'react-router-dom';
 import NotFoundScreen from '../not-found-screen/not-found-screen';
-import { AuthorizationStatus } from '../../const';
+import {AuthorizationStatus} from '../../const';
+import {Offer, FullOffer} from '../../types/offer';
+import {Map} from '../../components/map/map';
 
 type OfferScreenProps = {
   reviews: Review[];
   offers: Offer[];
+  fullOffers: FullOffer[];
   authorizationStatus: AuthorizationStatus;
 }
 
-function OfferScreen({offers, reviews, authorizationStatus}: OfferScreenProps): JSX.Element {
+function OfferScreen({offers, fullOffers, reviews, authorizationStatus}: OfferScreenProps): JSX.Element {
 
   const {id} = useParams();
 
-  const currentOffer = offers.find((item) => item.id === id);
+  const currentOffer = fullOffers.find((item) => item.id === id);
 
   if (!currentOffer) {
     return <NotFoundScreen/>;
   }
+
+  const city = currentOffer.city;
+  const nearbyOffers = offers.filter((offer) => offer.id !== currentOffer.id).slice(0, 3);
 
   return (
     <Layout>
@@ -32,7 +37,7 @@ function OfferScreen({offers, reviews, authorizationStatus}: OfferScreenProps): 
             <div className="offer__gallery">
               {currentOffer.images.slice(0, 6).map((image) => (
                 <div key={image} className="offer__image-wrapper">
-                  <img className="offer__image" src={image} alt={currentOffer.type} />
+                  <img className="offer__image" src={image} alt={currentOffer.type}/>
                 </div>
               ))}
             </div>
@@ -48,14 +53,14 @@ function OfferScreen({offers, reviews, authorizationStatus}: OfferScreenProps): 
                 </h1>
                 <button className="offer__bookmark-button button" type="button">
                   <svg className="offer__bookmark-icon" width="31" height="33">
-                    <use xlinkHref="#icon-bookmark"></use>
+                    <use xlinkHref="#icon-bookmark"/>
                   </svg>
                   <span className="visually-hidden">To bookmarks</span>
                 </button>
               </div>
               <div className="offer__rating rating">
                 <div className="offer__stars rating__stars">
-                  <span style={{width: '80%'}}></span>
+                  <span style={{width: '80%'}}/>
                   <span className="visually-hidden">Rating</span>
                 </div>
                 <span className="offer__rating-value rating__value">4.8</span>
@@ -121,27 +126,32 @@ function OfferScreen({offers, reviews, authorizationStatus}: OfferScreenProps): 
                   >{reviews.length}
                   </span>
                 </h2>
-                <ReviewList reviews={reviews} />
-                {authorizationStatus === AuthorizationStatus.Auth && <ReviewForm />}
+                <ReviewList reviews={reviews}/>
+                {authorizationStatus === AuthorizationStatus.Auth && <ReviewForm/>}
               </section>
             </div>
           </div>
-          <section className="offer__map map"></section>
+          <section className="offer__map map">
+            <Map
+              city={city}
+              offers={[...nearbyOffers, currentOffer]}
+              selectedOffer={currentOffer}
+              className="offer__map"
+            />
+          </section>
         </section>
         <div className="container">
           <section className="near-places places">
             <h2 className="near-places__title">Other places in the neighbourhood</h2>
             <div className="near-places__list places__list">
               <div className="near-places__list places__list">
-                {offers
-                  .filter((offer) => offer.id !== currentOffer.id)
-                  .slice(0, 3).map((nearOffer) => (
-                    <PlaceCard
-                      key={nearOffer.id}
-                      offer={nearOffer}
-                      variant="cities"
-                    />
-                  ))}
+                {nearbyOffers.map((nearOffer) => (
+                  <PlaceCard
+                    key={nearOffer.id}
+                    offer={nearOffer}
+                    variant="cities"
+                  />
+                ))}
               </div>
             </div>
           </section>

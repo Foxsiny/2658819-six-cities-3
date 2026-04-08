@@ -8,6 +8,7 @@ import {AppRoute, AuthorizationStatus} from '../../const';
 import PrivateRoute from '../private-route/private-route';
 import {Offer} from '../../types/offer';
 import {Review} from '../../types/review';
+import { fullOffers } from '../../mocks/full-offers';
 
 type AppProps = {
   offersCount: number;
@@ -31,7 +32,7 @@ function App({offersCount, offers, reviews, authorizationStatus}: AppProps): JSX
         <Route
           path={AppRoute.Favorites}
           element={
-            <PrivateRoute authorizationStatus={AuthorizationStatus.NoAuth}>
+            <PrivateRoute authorizationStatus={authorizationStatus}>
               <FavoritesScreen offers={offers}/>
             </PrivateRoute>
           }
@@ -41,6 +42,7 @@ function App({offersCount, offers, reviews, authorizationStatus}: AppProps): JSX
           element={
             <OfferScreen
               offers={offers}
+              fullOffers={fullOffers}
               reviews={reviews}
               authorizationStatus={authorizationStatus}
             />

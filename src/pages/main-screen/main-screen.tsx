@@ -75,7 +75,7 @@ function MainScreen({offersCount, offers}: MainScreenProps): JSX.Element {
                 <span className="places__sorting-type" tabIndex={0}>
                   Popular
                   <svg className="places__sorting-arrow" width="7" height="4">
-                    <use xlinkHref="#icon-arrow-select"></use>
+                    <use xlinkHref="#icon-arrow-select"/>
                   </svg>
                 </span>
                 <ul className="places__options places__options--custom places__options--opened">
@@ -96,6 +96,7 @@ function MainScreen({offersCount, offers}: MainScreenProps): JSX.Element {
                 city={city}
                 offers={offers}
                 selectedOffer={selectedOffer}
+                className="cities__map"
               />
             </div>
           </div>
