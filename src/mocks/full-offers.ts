@@ -9,14 +9,14 @@ export const fullOffers: FullOffer[] = [
     city: {
       name: 'Amsterdam',
       location: {
-        latitude: 52.370216,
-        longitude: 4.895168,
+        latitude: 52.3909553943508,
+        longitude: 4.85309666406198,
         zoom: 10
       }
     },
     location: {
       latitude: 52.35514938496378,
-      longitude: 4.673877537499948,
+      longitude: 4.85309666406198,
       zoom: 8
     },
     isFavorite: true,
@@ -41,7 +41,7 @@ export const fullOffers: FullOffer[] = [
       'img/apartment-02.jpg',
       'img/apartment-03.jpg',
       'img/studio-01.jpg',
-      'img/apartment-01.jpg'
+      'img/studio-photos.jpg'
     ],
     maxAdults: 4
   },
@@ -80,7 +80,7 @@ export const fullOffers: FullOffer[] = [
       'img/apartment-02.jpg',
       'img/apartment-03.jpg',
       'img/studio-01.jpg',
-      'img/apartment-01.jpg'
+      'img/studio-photos.jpg'
     ],
     maxAdults: 2
   },
@@ -98,7 +98,7 @@ export const fullOffers: FullOffer[] = [
       }
     },
     location: {
-      latitude: 52.3809553943508,
+      latitude: 52.3909553943508,
       longitude: 4.929309666406198,
       zoom: 8
     },
@@ -119,7 +119,7 @@ export const fullOffers: FullOffer[] = [
       'img/apartment-02.jpg',
       'img/apartment-03.jpg',
       'img/studio-01.jpg',
-      'img/apartment-01.jpg'
+      'img/studio-photos.jpg'
     ],
     maxAdults: 2,
   },
@@ -132,7 +132,7 @@ export const fullOffers: FullOffer[] = [
       name: 'Dusseldorf',
       location: {
         latitude: 52.3809553943508,
-        longitude: 6.776314,
+        longitude: 4.939309666406198,
         zoom: 10
       }
     },
