@@ -1,15 +1,16 @@
-import { useRef, useEffect } from 'react';
-import { Icon, Marker, layerGroup } from 'leaflet';
+import {useRef, useEffect} from 'react';
+import {Icon, Marker, layerGroup} from 'leaflet';
 import 'leaflet/dist/leaflet.css';
-import { useMap } from '../../hooks/use-map';
-import { City, Offer } from '../../types/offer';
-import { URL_MARKER_DEFAULT, URL_MARKER_CURRENT } from '../../const';
+import {useMap} from '../../hooks/use-map';
+import {City, Offer, FullOffer} from '../../types/offer';
+import {URL_MARKER_DEFAULT, URL_MARKER_CURRENT} from '../../const';
 import 'leaflet/dist/leaflet.css';
 
 type MapProps = {
   city: City;
-  offers: Offer[];
-  selectedOffer: Offer | null;
+  offers: (Offer | FullOffer)[];
+  selectedOffer: Offer | FullOffer | null;
+  className: string;
 };
 
 const defaultCustomIcon = new Icon({
@@ -24,7 +25,7 @@ const currentCustomIcon = new Icon({
   iconAnchor: [13.5, 39]
 });
 
-export function Map({ city, offers, selectedOffer }: MapProps): JSX.Element {
+export function Map({city, offers, selectedOffer, className }: MapProps): JSX.Element {
   const mapRef = useRef(null);
   const map = useMap(mapRef, city);
 
@@ -54,5 +55,11 @@ export function Map({ city, offers, selectedOffer }: MapProps): JSX.Element {
     }
   }, [map, city, offers, selectedOffer, city.location.latitude, city.location.longitude, city.location.zoom]);
 
-  return <section className="cities__map map" ref={mapRef} style={{height: '500px', minHeight: '500px'}}></section>;
+  return (
+    <section
+      className={`${className} map`}
+      ref={mapRef}
+      style={{height: '100%', minHeight: '500px'}}
+    />
+  );
 }

@@ -1,4 +1,4 @@
-import { Offer } from '../types/offer';
+import {Offer} from '../types/offer';
 
 export const offers: Offer[] = [
   {
@@ -22,16 +22,6 @@ export const offers: Offer[] = [
     isFavorite: false,
     isPremium: true,
     rating: 4.8,
-    description: 'A quiet cozy and picturesque that hides behind a a river by the thames.',
-    bedrooms: 3,
-    goods: ['Wi-Fi', 'Washing machine', 'Towels', 'Heating', 'Coffee machine', 'Baby seat', 'Kitchen', 'Dishwasher', 'Cabel TV', 'Fridge'],
-    host: {
-      name: 'Angelina',
-      avatarUrl: 'img/avatar-angelina.jpg',
-      isPro: true
-    },
-    images: ['img/apartment-01.jpg', 'img/apartment-02.jpg', 'img/apartment-03.jpg'],
-    maxAdults: 4,
     previewImage: 'img/apartment-01.jpg'
   },
   {
@@ -55,16 +45,6 @@ export const offers: Offer[] = [
     isFavorite: true,
     isPremium: false,
     rating: 4.7,
-    description: 'A historical building in the Latin Quarter.\nThis cozy room offers a authentic Parisian experience with a view of narrow charming streets.',
-    bedrooms: 2,
-    goods: ['Wi-Fi', 'Towels', 'Heating', 'Coffee machine', 'Cabel TV', 'Fridge'],
-    host: {
-      name: 'Claude',
-      avatarUrl: 'img/avatar-angelina.jpg',
-      isPro: false
-    },
-    images: ['img/room.jpg'],
-    maxAdults: 2,
     previewImage: 'img/room.jpg'
   },
   {
@@ -81,23 +61,13 @@ export const offers: Offer[] = [
       }
     },
     location: {
-      latitude: 52.3809553943508,
+      latitude: 52.3909553943508,
       longitude: 4.929309666406198,
       zoom: 8
     },
     isFavorite: false,
     isPremium: true,
     rating: 5.0,
-    description: 'Experience the heart of Belgium in this premium hotel.\nHigh-class service and elegant interiors for a perfect stay.',
-    bedrooms: 1,
-    goods: ['Wi-Fi', 'Air conditioning', 'Minibar', 'Towels', 'Breakfast'],
-    host: {
-      name: 'Hotel Manager',
-      avatarUrl: 'img/avatar.svg',
-      isPro: true
-    },
-    images: ['img/apartment-02.jpg'],
-    maxAdults: 2,
     previewImage: 'img/apartment-02.jpg'
   },
   {
@@ -109,7 +79,7 @@ export const offers: Offer[] = [
       name: 'Dusseldorf',
       location: {
         latitude: 52.3809553943508,
-        longitude: 6.776314,
+        longitude: 4.939309666406198,
         zoom: 10
       }
     },
@@ -121,16 +91,6 @@ export const offers: Offer[] = [
     isFavorite: true,
     isPremium: false,
     rating: 3.9,
-    description: 'Spacious modern house perfect for a family trip.\nGarden and private parking included.',
-    bedrooms: 4,
-    goods: ['Wi-Fi', 'Washing machine', 'Kitchen', 'Dishwasher', 'Fridge', 'Parking'],
-    host: {
-      name: 'Dieter',
-      avatarUrl: 'img/avatar-max.jpg',
-      isPro: false
-    },
-    images: ['img/apartment-03.jpg'],
-    maxAdults: 6,
     previewImage: 'img/apartment-03.jpg'
   }
 ];
