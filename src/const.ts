@@ -39,5 +39,5 @@ export const CITIES = [
   'Brussels',
   'Amsterdam',
   'Hamburg',
-  'Dusseldorf',
+  'Dusseldorf'
 ] as const;
