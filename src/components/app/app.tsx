@@ -7,10 +7,19 @@ import NotFoundScreen from '../../pages/not-found-screen/not-found-screen';
 import {AppRoute} from '../../const';
 import PrivateRoute from '../private-route/private-route';
 import {useAppSelector} from '../../hooks';
+import LoadingScreen from '../loading-screen/loading-screen';
 
 function App(): JSX.Element {
 
   const authorizationStatus = useAppSelector((state) => state.authorizationStatus);
+
+  const isOffersDataLoading = useAppSelector((state) => state.isOffersDataLoading);
+
+  if (isOffersDataLoading) {
+    return (
+      <LoadingScreen />
+    );
+  }
 
   return (
     <BrowserRouter>

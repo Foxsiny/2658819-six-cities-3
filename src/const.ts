@@ -48,3 +48,6 @@ export enum SortType {
   HighToLow = 'Price: high to low',
   TopRated = 'Top rated first',
 }
+
+export const BACKEND_URL = 'https://15.design.htmlacademy.pro/six-cities';
+export const REQUEST_TIMEOUT = 5000;
