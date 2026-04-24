@@ -1,6 +1,5 @@
 import {createReducer} from '@reduxjs/toolkit';
-import {changeCity, setOffers, changeSortType} from './action';
-import {offers} from '../mocks/offers';
+import {changeCity, setOffers, changeSortType, setOffersDataLoadingStatus, requireAuthorization, setUserEmail} from './action';
 import {AuthorizationStatus, SortType} from '../const';
 import {Offer} from '../types/offer';
 
@@ -9,13 +8,17 @@ type InitialState = {
   offers: Offer[];
   sortType: SortType;
   authorizationStatus: AuthorizationStatus;
+  isOffersDataLoading: boolean;
+  userEmail: string | null;
 };
 
 const initialState: InitialState = {
   city: 'Paris', // Начальный город по ТЗ — Париж
-  offers: offers,
-  authorizationStatus: AuthorizationStatus.NoAuth,
+  offers: [],
+  authorizationStatus: AuthorizationStatus.Unknown,
   sortType: SortType.Popular,
+  isOffersDataLoading: false,
+  userEmail: null,
 };
 
 export const reducer = createReducer(initialState, (builder) => {
@@ -26,8 +29,17 @@ export const reducer = createReducer(initialState, (builder) => {
     .addCase(changeCity, (state, action) => {
       state.city = action.payload.city;
     })
-    .addCase(setOffers, (state) => {
-      state.offers = offers;
+    .addCase(setOffers, (state, action) => {
+      state.offers = action.payload;
+    })
+    .addCase(setOffersDataLoadingStatus, (state, action) => {
+      state.isOffersDataLoading = action.payload;
+    })
+    .addCase(requireAuthorization, (state, action) => {
+      state.authorizationStatus = action.payload;
+    })
+    .addCase(setUserEmail, (state, action) => {
+      state.userEmail = action.payload;
     });
 });
 
