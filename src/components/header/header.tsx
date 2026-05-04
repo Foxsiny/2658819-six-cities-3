@@ -1,5 +1,5 @@
 import {Link} from 'react-router-dom';
-import {AppRoute, AuthorizationStatus} from '../../const';
+import {AppRoute, AuthorizationStatus, LogoSize} from '../../const';
 import {useAppDispatch, useAppSelector} from '../../hooks';
 import {logoutAction} from '../../store/api-actions';
 import {getAuthorizationStatus, getUserEmail} from '../../store/user-process/selectors';
@@ -17,6 +17,11 @@ export function Header({hasNavigation = true}: HeaderProps): JSX.Element {
 
   const dispatch = useAppDispatch();
 
+  const handleLogoutClick = (evt: React.MouseEvent<HTMLAnchorElement>) => {
+    evt.preventDefault();
+    dispatch(logoutAction());
+  };
+
   return (
     <header className="header">
       <div className="container">
@@ -27,8 +32,8 @@ export function Header({hasNavigation = true}: HeaderProps): JSX.Element {
                 className="header__logo"
                 src="/img/logo.svg"
                 alt="6 cities logo"
-                width="81"
-                height="41"
+                width={LogoSize.Header.Width}
+                height={LogoSize.Header.Height}
               />
             </Link>
           </div>
@@ -48,10 +53,7 @@ export function Header({hasNavigation = true}: HeaderProps): JSX.Element {
                       <a
                         className="header__nav-link"
                         href="#"
-                        onClick={(evt) => {
-                          evt.preventDefault();
-                          dispatch(logoutAction());
-                        }}
+                        onClick={handleLogoutClick}
                       >
                         <span className="header__signout">Sign out</span>
                       </a>

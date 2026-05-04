@@ -4,7 +4,7 @@ import {AppDispatch, State} from '../types/state';
 import {Offer, FullOffer} from '../types/offer';
 import {setError} from './data-process/data-process';
 import {redirectToRoute} from './action';
-import {AppRoute, APIRoute} from '../const';
+import {AppRoute, APIRoute, TIMEOUT_SHOW_ERROR} from '../const';
 import {AuthData} from '../types/auth-data';
 import {UserData} from '../types/user-data';
 import {saveToken, dropToken} from '../services/token';
@@ -118,7 +118,7 @@ export const clearErrorAction = createAsyncThunk<void, undefined, {
   (_arg, {dispatch}) => {
     setTimeout(
       () => dispatch(setError(null)),
-      2000,
+      TIMEOUT_SHOW_ERROR,
     );
   },
 );

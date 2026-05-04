@@ -9,13 +9,22 @@ export function Sorting(): JSX.Element {
   const activeSortType = useAppSelector(getSortingType);
   const dispatch = useAppDispatch();
 
+  const handleTypeClick = () => {
+    setIsOpen((isOpenedStatus) => !isOpenedStatus);
+  };
+
+  const handleSortItemClick = (type: SortType) => {
+    dispatch(changeSorting({ sortingType: type }));
+    setIsOpen(false);
+  };
+
   return (
     <form className="places__sorting" action="#" method="get">
       <span className="places__sorting-caption">Sort by</span>
       <span
         className="places__sorting-type"
         tabIndex={0}
-        onClick={() => setIsOpen(!isOpen)} // Открываем/закрываем меню
+        onClick={handleTypeClick}
       >
         {activeSortType}
         <svg className="places__sorting-arrow" width="7" height="4">
@@ -28,10 +37,7 @@ export function Sorting(): JSX.Element {
             key={type}
             className={`places__option ${type === activeSortType ? 'places__option--active' : ''}`}
             tabIndex={0}
-            onClick={() => {
-              dispatch(changeSorting({ sortingType: type }));
-              setIsOpen(false);
-            }}
+            onClick={() => handleSortItemClick(type)}
           >
             {type}
           </li>

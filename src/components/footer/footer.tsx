@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import { AppRoute } from '../../const';
+import { AppRoute, LogoSize } from '../../const';
 
 export function Footer(): JSX.Element {
   return (
@@ -9,8 +9,8 @@ export function Footer(): JSX.Element {
           className="footer__logo"
           src="/img/logo.svg"
           alt="6 cities logo"
-          width="64"
-          height="33"
+          width={LogoSize.Footer.Width}
+          height={LogoSize.Footer.Height}
         />
       </Link>
     </footer>

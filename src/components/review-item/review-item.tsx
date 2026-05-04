@@ -1,4 +1,5 @@
 import { Review } from '../../types/review';
+import { RATING_COEFFICIENT, UserAvatarSize } from '../../const';
 
 type ReviewItemProps = {
   review: Review;
@@ -14,8 +15,8 @@ export function ReviewItem({ review }: ReviewItemProps): JSX.Element {
           <img
             className="reviews__avatar user__avatar"
             src={user.avatarUrl}
-            width="54"
-            height="54"
+            width={UserAvatarSize.Width}
+            height={UserAvatarSize.Height}
             alt="Reviews avatar"
           />
         </div>
@@ -24,7 +25,7 @@ export function ReviewItem({ review }: ReviewItemProps): JSX.Element {
       <div className="reviews__info">
         <div className="reviews__rating rating">
           <div className="reviews__stars rating__stars">
-            <span style={{ width: `${Math.round(rating) * 20}%` }}></span>
+            <span style={{ width: `${Math.round(rating) * RATING_COEFFICIENT}%` }}></span>
             <span className="visually-hidden">Rating</span>
           </div>
         </div>

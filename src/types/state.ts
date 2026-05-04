@@ -14,6 +14,7 @@ export type DataProcess = {
   nearbyOffers: Offer[];
   reviews: Review[];
   isOffersDataLoading: boolean;
+  hasError: boolean;
   error: string | null;
   favorites: Offer[];
 };

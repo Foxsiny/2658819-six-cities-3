@@ -26,11 +26,16 @@ export const createAPI = (): AxiosInstance => {
     (response) => response,
     (error: AxiosError<ErrorResponseData>) => {
       if (error.response) {
-        const {status, data} = error.response;
-        if (Number(status) === Number(StatusCodes.NOT_FOUND) && data) {
-          processErrorHandle(data.message);
-        }
-        if (Number(status) !== Number(StatusCodes.UNAUTHORIZED) && data) {
+        const status = error.response.status as StatusCodes;
+        const {data} = error.response;
+        const shouldShowError = (
+          status === StatusCodes.BAD_REQUEST ||
+          status === StatusCodes.CONFLICT ||
+          (status !== StatusCodes.UNAUTHORIZED && status !== StatusCodes.NOT_FOUND)
+        );
+          // status !== StatusCodes.UNAUTHORIZED &&
+          // status !== StatusCodes.NOT_FOUND;
+        if (shouldShowError && data) {
           processErrorHandle(data.message);
         }
       }

@@ -3,14 +3,29 @@ import {ReviewForm} from '../../components/review-form/review-form';
 import {ReviewList} from '../../components/review-list/review-list';
 import {PlaceCard} from '../../components/place-card/place-card';
 import {useParams, useNavigate} from 'react-router-dom';
-import {AuthorizationStatus, AppRoute} from '../../const';
+import {
+  AuthorizationStatus,
+  AppRoute,
+  RATING_COEFFICIENT,
+  FavoriteStatus,
+  MAX_NEARBY_OFFERS_COUNT,
+  MAX_OFFER_IMAGE_COUNT,
+  HostAvatarSize,
+  BookmarkSize
+} from '../../const';
 import {Map} from '../../components/map/map';
 import {useAppDispatch, useAppSelector} from '../../hooks';
 import {useEffect} from 'react';
-import { fetchOfferAction, fetchNearbyOffersAction, fetchReviewsAction, setFavoriteStatusAction } from '../../store/api-actions';
+import {
+  fetchOfferAction,
+  fetchNearbyOffersAction,
+  fetchReviewsAction,
+  setFavoriteStatusAction
+} from '../../store/api-actions';
 import {LoadingScreen} from '../../components/loading-screen/loading-screen';
-import { getOffer, getReviews, getNearbyOffers } from '../../store/data-process/selectors';
-import { getAuthorizationStatus } from '../../store/user-process/selectors';
+import {getOffer, getReviews, getNearbyOffers, getOfferErrorStatus} from '../../store/data-process/selectors';
+import {getAuthorizationStatus} from '../../store/user-process/selectors';
+import {NotFoundScreen} from '../not-found-screen/not-found-screen';
 
 
 export function OfferScreen(): JSX.Element {
@@ -20,6 +35,7 @@ export function OfferScreen(): JSX.Element {
   const navigate = useNavigate();
 
   const currentOffer = useAppSelector(getOffer);
+  const hasError = useAppSelector(getOfferErrorStatus);
   const reviews = useAppSelector(getReviews);
   const nearbyOffers = useAppSelector(getNearbyOffers);
   const authorizationStatus = useAppSelector(getAuthorizationStatus);
@@ -32,6 +48,10 @@ export function OfferScreen(): JSX.Element {
     }
   }, [id, dispatch]);
 
+  if (hasError) {
+    return <NotFoundScreen/>;
+  }
+
   const handleBookmarkClick = () => {
     if (authorizationStatus !== AuthorizationStatus.Auth) {
       navigate(AppRoute.Login);
@@ -41,7 +61,7 @@ export function OfferScreen(): JSX.Element {
     if (currentOffer) {
       dispatch(setFavoriteStatusAction({
         id: currentOffer.id,
-        status: currentOffer.isFavorite ? 0 : 1,
+        status: currentOffer.isFavorite ? FavoriteStatus.Remove : FavoriteStatus.Add,
       }));
     }
   };
@@ -51,7 +71,7 @@ export function OfferScreen(): JSX.Element {
   }
 
   const city = currentOffer.city;
-  const nearbyOffersToRender = nearbyOffers.slice(0, 3);
+  const nearbyOffersToRender = nearbyOffers.slice(0, MAX_NEARBY_OFFERS_COUNT);
   const mapOffers = [...nearbyOffersToRender, currentOffer];
 
   return (
@@ -60,7 +80,7 @@ export function OfferScreen(): JSX.Element {
         <section className="offer">
           <div className="offer__gallery-container container">
             <div className="offer__gallery">
-              {currentOffer.images.slice(0, 6).map((image) => (
+              {currentOffer.images.slice(0, MAX_OFFER_IMAGE_COUNT).map((image) => (
                 <div key={image} className="offer__image-wrapper">
                   <img className="offer__image" src={image} alt={currentOffer.type}/>
                 </div>
@@ -81,7 +101,11 @@ export function OfferScreen(): JSX.Element {
                   type="button"
                   onClick={handleBookmarkClick}
                 >
-                  <svg className="offer__bookmark-icon" width="31" height="33">
+                  <svg
+                    className="offer__bookmark-icon"
+                    width={BookmarkSize.Offer.Width}
+                    height={BookmarkSize.Offer.Height}
+                  >
                     <use xlinkHref="#icon-bookmark"/>
                   </svg>
                   <span className="visually-hidden">{currentOffer.isFavorite ? 'In bookmarks' : 'To bookmarks'}</span>
@@ -89,7 +113,7 @@ export function OfferScreen(): JSX.Element {
               </div>
               <div className="offer__rating rating">
                 <div className="offer__stars rating__stars">
-                  <span style={{width: `${Math.round(currentOffer.rating) * 20}%`}}/>
+                  <span style={{width: `${Math.round(currentOffer.rating) * RATING_COEFFICIENT}%`}}/>
                   <span className="visually-hidden">Rating</span>
                 </div>
                 <span className="offer__rating-value rating__value">{currentOffer.rating}</span>
@@ -122,12 +146,14 @@ export function OfferScreen(): JSX.Element {
               <div className="offer__host">
                 <h2 className="offer__host-title">Meet the host</h2>
                 <div className="offer__host-user user">
-                  <div className={`offer__avatar-wrapper ${currentOffer.host.isPro ? 'offer__avatar-wrapper--pro' : ''} user__avatar-wrapper`}>
+                  <div
+                    className={`offer__avatar-wrapper ${currentOffer.host.isPro ? 'offer__avatar-wrapper--pro' : ''} user__avatar-wrapper`}
+                  >
                     <img
                       className="offer__avatar user__avatar"
                       src={currentOffer.host.avatarUrl}
-                      width="74"
-                      height="74"
+                      width={HostAvatarSize.Width}
+                      height={HostAvatarSize.Height}
                       alt="Host avatar"
                     />
                   </div>
@@ -164,17 +190,17 @@ export function OfferScreen(): JSX.Element {
         <div className="container">
           <section className="near-places places">
             <h2 className="near-places__title">Other places in the neighbourhood</h2>
+            {/*<div className="near-places__list places__list">*/}
             <div className="near-places__list places__list">
-              <div className="near-places__list places__list">
-                {nearbyOffersToRender.map((nearOffer) => (
-                  <PlaceCard
-                    key={nearOffer.id}
-                    offer={nearOffer}
-                    variant="near-places"
-                  />
-                ))}
-              </div>
+              {nearbyOffersToRender.map((nearOffer) => (
+                <PlaceCard
+                  key={nearOffer.id}
+                  offer={nearOffer}
+                  variant="near-places"
+                />
+              ))}
             </div>
+            {/*</div>*/}
           </section>
         </div>
       </main>

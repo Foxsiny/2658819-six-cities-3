@@ -25,6 +25,11 @@ export function MainScreen(): JSX.Element {
   if (allOffers.length === 0) {
     return <LoadingScreen/>;
   }
+
+  const handleCityClick = (event: React.MouseEvent<HTMLAnchorElement>, cityName: string) => {
+    event.preventDefault();
+    dispatch(changeCity({ city: cityName }));
+  };
   const offers = allOffers.filter((offer) => offer.city.name === activeCityName);
   const sortedOffers = sortOffers(offers, activeSortType);
   const offersCount = offers.length;
@@ -32,12 +37,9 @@ export function MainScreen(): JSX.Element {
 
   const city = !isEmpty ? offers[0].city : allOffers[0].city;
 
-  // const isEmpty = true;
-
   const handleCardMouseEnter = (id: string) => {
     const currentOffer = offers.find((offer) => offer.id === id);
     setSelectedOffer(currentOffer || null);
-    // console.log(`Активная карточка: ${id}`);
   };
 
   const handleCardMouseLeave = () => {
@@ -56,10 +58,7 @@ export function MainScreen(): JSX.Element {
                   <a
                     className={`locations__item-link tabs__item ${cityName === activeCityName ? 'tabs__item--active' : ''}`}
                     href="#"
-                    onClick={(evt) => {
-                      evt.preventDefault();
-                      dispatch(changeCity({city: cityName}));
-                    }}
+                    onClick={(event) => handleCityClick(event, cityName)}
                   >
                     <span>{cityName}</span>
                   </a>
