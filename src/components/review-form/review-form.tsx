@@ -1,5 +1,5 @@
 import {useState, ChangeEvent, Fragment, FormEvent} from 'react';
-import {ReviewSymbolLength, ratingMap, RATINGS} from '../../const.ts';
+import {ReviewSymbolLength, ratingMap, RATINGS, StarSize} from '../../const.ts';
 import {useParams} from 'react-router-dom';
 import {useAppDispatch} from '../../hooks';
 import {sendCommentAction} from '../../store/api-actions';
@@ -21,7 +21,7 @@ export function ReviewForm(): JSX.Element {
     setFormData({ ...formData, [name]: value });
   };
 
-  const handleSubmit = (evt: FormEvent<HTMLFormElement>) => {
+  const handleFormSubmit = (evt: FormEvent<HTMLFormElement>) => {
     evt.preventDefault();
 
     if (id && formData.rating !== 0 && formData.review.length >= ReviewSymbolLength.Min) {
@@ -47,7 +47,7 @@ export function ReviewForm(): JSX.Element {
   return (
     <form
       className="reviews__form form"
-      onSubmit={handleSubmit}
+      onSubmit={handleFormSubmit}
     >
       <label className="reviews__label form__label" htmlFor="review">Your review</label>
       <div className="reviews__rating-form form__rating">
@@ -68,7 +68,7 @@ export function ReviewForm(): JSX.Element {
               className="reviews__rating-label form__rating-label"
               title={ratingMap[score.toString() as keyof typeof ratingMap]}
             >
-              <svg className="form__star-image" width="37" height="33">
+              <svg className="form__star-image" width={StarSize.Width} height={StarSize.Height}>
                 <use xlinkHref="#icon-star"/>
               </svg>
             </label>
@@ -87,7 +87,7 @@ export function ReviewForm(): JSX.Element {
       <div className="reviews__button-wrapper">
         <p className="reviews__help">
           To submit review please make sure to set <span className="reviews__star">rating</span> and describe your stay
-          with at least <b className="reviews__text-amount">50 characters</b>.
+          with at least <b className="reviews__text-amount">{ReviewSymbolLength.Min} characters</b>.
         </p>
         <button
           className="reviews__submit form__submit button"

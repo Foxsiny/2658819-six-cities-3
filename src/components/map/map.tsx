@@ -3,7 +3,7 @@ import {Icon, Marker, layerGroup} from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 import {useMap} from '../../hooks/use-map';
 import {City, Offer, FullOffer} from '../../types/offer';
-import {URL_MARKER_DEFAULT, URL_MARKER_CURRENT} from '../../const';
+import {URL_MARKER_DEFAULT, URL_MARKER_CURRENT, MarkerSize, MIN_MAP_HEIGHT} from '../../const';
 import 'leaflet/dist/leaflet.css';
 
 type MapProps = {
@@ -15,14 +15,14 @@ type MapProps = {
 
 const defaultCustomIcon = new Icon({
   iconUrl: URL_MARKER_DEFAULT,
-  iconSize: [27, 39],
-  iconAnchor: [13.5, 39]
+  iconSize: [MarkerSize.Width, MarkerSize.Height],
+  iconAnchor: [MarkerSize.AnchorWidth, MarkerSize.AnchorHeight]
 });
 
 const currentCustomIcon = new Icon({
   iconUrl: URL_MARKER_CURRENT,
-  iconSize: [27, 39],
-  iconAnchor: [13.5, 39]
+  iconSize: [MarkerSize.Width, MarkerSize.Height],
+  iconAnchor: [MarkerSize.AnchorWidth, MarkerSize.AnchorHeight]
 });
 
 export function Map({city, offers, selectedOffer, className }: MapProps): JSX.Element {
@@ -59,7 +59,7 @@ export function Map({city, offers, selectedOffer, className }: MapProps): JSX.El
     <section
       className={`${className} map`}
       ref={mapRef}
-      style={{height: '100%', minHeight: '500px'}}
+      style={{height: '100%', minHeight: MIN_MAP_HEIGHT}}
     />
   );
 }

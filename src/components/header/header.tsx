@@ -1,7 +1,9 @@
 import {Link} from 'react-router-dom';
-import {AppRoute, AuthorizationStatus} from '../../const';
+import {AppRoute, AuthorizationStatus, LogoSize} from '../../const';
 import {useAppDispatch, useAppSelector} from '../../hooks';
 import {logoutAction} from '../../store/api-actions';
+import {getAuthorizationStatus, getUserEmail} from '../../store/user-process/selectors';
+import { getFavoriteCount } from '../../store/data-process/selectors';
 
 type HeaderProps = {
   hasNavigation?: boolean;
@@ -9,10 +11,16 @@ type HeaderProps = {
 
 export function Header({hasNavigation = true}: HeaderProps): JSX.Element {
 
+  const authorizationStatus = useAppSelector(getAuthorizationStatus);
+  const userEmail = useAppSelector(getUserEmail);
+  const favoriteCount = useAppSelector(getFavoriteCount);
+
   const dispatch = useAppDispatch();
 
-  const authorizationStatus = useAppSelector((state) => state.authorizationStatus);
-  const userEmail = useAppSelector((state) => state.userEmail);
+  const handleLogoutClick = (evt: React.MouseEvent<HTMLAnchorElement>) => {
+    evt.preventDefault();
+    dispatch(logoutAction());
+  };
 
   return (
     <header className="header">
@@ -24,8 +32,8 @@ export function Header({hasNavigation = true}: HeaderProps): JSX.Element {
                 className="header__logo"
                 src="/img/logo.svg"
                 alt="6 cities logo"
-                width="81"
-                height="41"
+                width={LogoSize.Header.Width}
+                height={LogoSize.Header.Height}
               />
             </Link>
           </div>
@@ -38,17 +46,14 @@ export function Header({hasNavigation = true}: HeaderProps): JSX.Element {
                       <Link className="header__nav-link header__nav-link--profile" to={AppRoute.Favorites}>
                         <div className="header__avatar-wrapper user__avatar-wrapper"/>
                         <span className="header__user-name user__name">{userEmail}</span>
-                        <span className="header__favorite-count">3</span>
+                        <span className="header__favorite-count">{favoriteCount}</span>
                       </Link>
                     </li>
                     <li className="header__nav-item">
                       <a
                         className="header__nav-link"
                         href="#"
-                        onClick={(evt) => {
-                          evt.preventDefault();
-                          dispatch(logoutAction());
-                        }}
+                        onClick={handleLogoutClick}
                       >
                         <span className="header__signout">Sign out</span>
                       </a>

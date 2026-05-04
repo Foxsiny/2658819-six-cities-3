@@ -1,12 +1,22 @@
 import { useState } from 'react';
 import { SortType } from '../../const';
 import { useAppDispatch, useAppSelector } from '../../hooks';
-import { changeSortType } from '../../store/action';
+import { changeSorting } from '../../store/app-process/app-process';
+import {getSortingType} from '../../store/app-process/selectors';
 
 export function Sorting(): JSX.Element {
   const [isOpen, setIsOpen] = useState(false);
-  const activeSortType = useAppSelector((state) => state.sortType);
+  const activeSortType = useAppSelector(getSortingType);
   const dispatch = useAppDispatch();
+
+  const handleTypeClick = () => {
+    setIsOpen((isOpenedStatus) => !isOpenedStatus);
+  };
+
+  const handleSortItemClick = (type: SortType) => {
+    dispatch(changeSorting({ sortingType: type }));
+    setIsOpen(false);
+  };
 
   return (
     <form className="places__sorting" action="#" method="get">
@@ -14,7 +24,7 @@ export function Sorting(): JSX.Element {
       <span
         className="places__sorting-type"
         tabIndex={0}
-        onClick={() => setIsOpen(!isOpen)} // Открываем/закрываем меню
+        onClick={handleTypeClick}
       >
         {activeSortType}
         <svg className="places__sorting-arrow" width="7" height="4">
@@ -27,10 +37,7 @@ export function Sorting(): JSX.Element {
             key={type}
             className={`places__option ${type === activeSortType ? 'places__option--active' : ''}`}
             tabIndex={0}
-            onClick={() => {
-              dispatch(changeSortType({ type }));
-              setIsOpen(false);
-            }}
+            onClick={() => handleSortItemClick(type)}
           >
             {type}
           </li>

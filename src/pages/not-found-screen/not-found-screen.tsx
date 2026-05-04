@@ -1,13 +1,14 @@
 import {Link} from 'react-router-dom';
 import {AppRoute} from '../../const.ts';
 
-function NotFoundScreen(): JSX.Element {
+export function NotFoundScreen(): JSX.Element {
   return (
-    <section className="not-found">
+    <section className="not-found" style={{textAlign: 'center', marginTop: '50px'}}>
       <h1>404 Not Found</h1>
-      <Link to={AppRoute.Main}>Вернуться на главную</Link>
+      <Link to={AppRoute.Main}>
+        Go back to the main page
+      </Link>
     </section>
   );
 }
 
-export default NotFoundScreen;

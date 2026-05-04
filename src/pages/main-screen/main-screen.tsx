@@ -5,33 +5,41 @@ import {Map} from '../../components/map/map';
 import {useState} from 'react';
 import {CITIES} from '../../const';
 import {useAppSelector, useAppDispatch} from '../../hooks';
-import {changeCity} from '../../store/action';
+import {changeCity} from '../../store/app-process/app-process';
 import {Sorting} from '../../components/sorting/sorting';
 import {sortOffers} from '../../utils';
+import {getOffers} from '../../store/data-process/selectors';
+import {getCity, getSortingType} from '../../store/app-process/selectors';
+import {LoadingScreen} from '../../components/loading-screen/loading-screen';
+import {MainEmpty} from '../../components/main-empty/main-empty';
 
 
-function MainScreen(): JSX.Element {
+export function MainScreen(): JSX.Element {
   const dispatch = useAppDispatch();
 
-  const activeCityName = useAppSelector((state) => state.city);
-  const allOffers = useAppSelector((state) => state.offers);
-  const activeSortType = useAppSelector((state) => state.sortType);
-  const offers = allOffers.filter((offer) => offer.city.name === activeCityName);
-
-  const isEmpty = offers.length === 0;
-  // const isEmpty = true;
-
-  const sortedOffers = sortOffers(offers, activeSortType);
-
-  const city = offers.length > 0 ? offers[0].city : allOffers[0].city;
-  const offersCount = offers.length;
-
+  const activeCityName = useAppSelector(getCity);
+  const allOffers = useAppSelector(getOffers);
+  const activeSortType = useAppSelector(getSortingType);
   const [selectedOffer, setSelectedOffer] = useState<Offer | null>(null);
+
+  if (allOffers.length === 0) {
+    return <LoadingScreen/>;
+  }
+
+  const handleCityClick = (event: React.MouseEvent<HTMLAnchorElement>, cityName: string) => {
+    event.preventDefault();
+    dispatch(changeCity({ city: cityName }));
+  };
+  const offers = allOffers.filter((offer) => offer.city.name === activeCityName);
+  const sortedOffers = sortOffers(offers, activeSortType);
+  const offersCount = offers.length;
+  const isEmpty = offers.length === 0;
+
+  const city = !isEmpty ? offers[0].city : allOffers[0].city;
 
   const handleCardMouseEnter = (id: string) => {
     const currentOffer = offers.find((offer) => offer.id === id);
     setSelectedOffer(currentOffer || null);
-    // console.log(`Активная карточка: ${id}`);
   };
 
   const handleCardMouseLeave = () => {
@@ -50,10 +58,7 @@ function MainScreen(): JSX.Element {
                   <a
                     className={`locations__item-link tabs__item ${cityName === activeCityName ? 'tabs__item--active' : ''}`}
                     href="#"
-                    onClick={(evt) => {
-                      evt.preventDefault();
-                      dispatch(changeCity({city: cityName}));
-                    }}
+                    onClick={(event) => handleCityClick(event, cityName)}
                   >
                     <span>{cityName}</span>
                   </a>
@@ -63,16 +68,9 @@ function MainScreen(): JSX.Element {
           </section>
         </div>
         <div className="cities">
-          <div className={`cities__places-container container ${isEmpty ? 'cities__places-container--empty' : ''}`}>
+          <div className="cities__places-container container">
             {isEmpty ? (
-              <section className="cities__no-places">
-                <div className="cities__status-wrapper tabs__content">
-                  <b className="cities__status">No places to stay available</b>
-                  <p className="cities__status-description">
-                    We could not find any property available at the moment in {activeCityName}
-                  </p>
-                </div>
-              </section>
+              <MainEmpty city={activeCityName}/>
             ) : (
               <section className="cities__places places">
                 <h2 className="visually-hidden">Places</h2>
@@ -104,4 +102,3 @@ function MainScreen(): JSX.Element {
   );
 }
 
-export default MainScreen;
